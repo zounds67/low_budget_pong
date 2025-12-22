@@ -9,20 +9,20 @@
 # ============================================
 
 # Canvas size (how big is the game screen?)
-CANVAS_WIDTH = ???   # HINT: Try 600-900
-CANVAS_HEIGHT = ???  # HINT: Try 300-500
+CANVAS_WIDTH =  900  # HINT: Try 600-900
+CANVAS_HEIGHT = 500  # HINT: Try 300-500
 
 # Paddle settings (the things players move up and down)
-PADDLE_WIDTH = ???   # HINT: Try 8-15
-PADDLE_HEIGHT = ???  # HINT: Try 60-100
-PADDLE_SPEED = ???   # HINT: Try 4-8 (how fast paddles move)
+PADDLE_WIDTH = 10   # HINT: Try 8-15
+PADDLE_HEIGHT = 60  # HINT: Try 60-100
+PADDLE_SPEED = 6   # HINT: Try 4-8 (how fast paddles move)
 
 # Ball settings
-BALL_SIZE = ???      # HINT: Try 8-15
-BALL_SPEED = ???     # HINT: Try 3-7 (how fast ball moves)
+BALL_SIZE = 13      # HINT: Try 8-15
+BALL_SPEED = 6     # HINT: Try 3-7 (how fast ball moves)
 
 # How many points to win the game
-WINNING_SCORE = ???  # HINT: Try 3-10
+WINNING_SCORE = 7  # HINT: Try 3-10
 
 # ============================================
 # GAME VARIABLES - These values change during the game
@@ -42,11 +42,11 @@ ball =
 
 # The left paddle's position (x is always 20)
 leftPaddle =
-  y: 0
+  y: CANVAS_HEIGHT/2
 
 # The right paddle's position (x is always CANVAS_WIDTH - 30)
 rightPaddle =
-  y: 0
+  y: CANVAS_HEIGHT/2
 
 # The scores for each player
 leftScore = 0
@@ -95,25 +95,30 @@ setupGame = ->
 # HINT: Set ctx.fillStyle to 'black'
 # HINT: Use ctx.fillRect(x, y, width, height) to fill the whole canvas
 drawBackground = ->
-  # YOUR CODE HERE
+  ctx.fillStyle = 'blue'
+  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
 
 # Draw the ball as a white square at (ball.x, ball.y)
 # HINT: Set ctx.fillStyle to 'white'
 # HINT: Use ctx.fillRect(ball.x, ball.y, width, height)
 drawBall = ->
-  # YOUR CODE HERE
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, BALL_SIZE, BALL_SIZE)
 
 # Draw a paddle at position (x, y)
 # HINT: Same pattern as drawBall
 # HINT: Use PADDLE_WIDTH and PADDLE_HEIGHT for the size
 drawPaddle = (x, y) ->
-  # YOUR CODE HERE
+  ctx.fillStyle = 'red'
+  ctx.fillRect(x, y,PADDLE_WIDTH, PADDLE_HEIGHT)
 
 # Draw both paddles on the screen
 # HINT: Call drawPaddle twice - once for each paddle
 # HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
 drawPaddles = ->
-  # YOUR CODE HERE
+  drawPaddle(20,leftPaddle.y)
+  drawPaddle(CANVAS_WIDTH - 150 ,rightPaddle.y)
 
 # Draw both players' scores at the top of the screen
 # HINT: Set ctx.fillStyle, ctx.font = '48px Arial', ctx.textAlign = 'center'

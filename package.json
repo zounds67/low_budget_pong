@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "coffee": "^5.5.1",
+    "coffeescript": "^2.7.0"
+  }
+}
