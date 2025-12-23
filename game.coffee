@@ -56,10 +56,10 @@ rightScore = 0
 keysPressed = {}
 
 keys = 
-  leftup: false
-  leftdn: false
-  rightup: false
-  rightdn: false
+  leftUp: false
+  leftDown: false
+  rightUp: false
+  rightDown: false
 
 # Is the game currently running?
 gameRunning = false
@@ -190,16 +190,17 @@ moveBall = ->
   ball.y += ball.speedY
 
 # Move left paddle when W or S is pressed
-# HINT: Check if keysPressed['w'] or keysPressed['W'] is true
-# HINT: If W pressed, subtract PADDLE_SPEED from leftPaddle.y (up)
-# HINT: If S pressed, add PADDLE_SPEED to leftPaddle.y (down)
+# HINT: Check if keys.leftUp is true
+# HINT: If so, subtract PADDLE_SPEED from leftPaddle.y (up)
+# HINT: Check if keys.leftDown is true
+# HINT: If so, add PADDLE_SPEED to leftPaddle.y (down)
 # HINT: Call keepPaddleOnScreen(leftPaddle) at the end
 moveLeftPaddle = ->
   #if  == true
   #PADDLE_SPEED -= 1
 
 # Move right paddle when Arrow keys are pressed
-# HINT: Check keysPressed['ArrowUp'] and keysPressed['ArrowDown']
+# HINT: Check keys.rightUp and keys.rightDown
 # HINT: Same pattern as moveLeftPaddle but for rightPaddle
 moveRightPaddle = ->
   # YOUR CODE HERE
@@ -270,13 +271,30 @@ startNewGame = ->
 # ============================================
 
 handleKeyDown = (event) ->
-  keysPressed[event.key] = true
+  # Left paddle controls (W and S keys)
+  if event.key == 'w' or event.key == 'W'
+    keys.leftUp = true
+  if event.key == 's' or event.key == 'S'
+    keys.leftDown = true
+  # Right paddle controls (Arrow keys)
+  if event.key == 'ArrowUp'
+    keys.rightUp = true
+  if event.key == 'ArrowDown'
+    keys.rightDown = true
+  # Space to start
   if event.key == ' '
     if not gameRunning
       startNewGame()
 
 handleKeyUp = (event) ->
-  keysPressed[event.key] = false
+  if event.key == 'w' or event.key == 'W'
+    keys.leftUp = false
+  if event.key == 's' or event.key == 'S'
+    keys.leftDown = false
+  if event.key == 'ArrowUp'
+    keys.rightUp = false
+  if event.key == 'ArrowDown'
+    keys.rightDown = false
 
 # ============================================
 # MAIN GAME LOOP (Don't change this section!)
