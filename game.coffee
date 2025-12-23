@@ -55,6 +55,12 @@ rightScore = 0
 # Track which keys are currently pressed
 keysPressed = {}
 
+keys = 
+  leftup: false
+  leftdn: false
+  rightup: false
+  rightdn: false
+
 # Is the game currently running?
 gameRunning = false
 
@@ -118,14 +124,16 @@ drawPaddle = (x, y) ->
 # HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
 drawPaddles = ->
   drawPaddle(20,leftPaddle.y)
-  drawPaddle(CANVAS_WIDTH - 150 ,rightPaddle.y)
+  drawPaddle(CANVAS_WIDTH - 30 ,rightPaddle.y)
 
 # Draw both players' scores at the top of the screen
 # HINT: Set ctx.fillStyle, ctx.font = '48px Arial', ctx.textAlign = 'center'
 # HINT: Use ctx.fillText(text, x, y) to draw text
 # HINT: Left score at x = CANVAS_WIDTH / 4, right at x = CANVAS_WIDTH * 3 / 4
 drawScore = ->
-  # YOUR CODE HERE
+  ctx.fillStyle = 'black'
+  ctx.font = '48px Roboto'
+  ctx.fillText('points:', CANVAS_WIDTH/8, CANVAS_HEIGHT/8) 
 
 # Draw a dashed line down the center (Don't change this!)
 drawCenterLine = ->
@@ -178,7 +186,8 @@ playScoreSound = ->
 # HINT: ball.x = ball.x + ball.speedX
 # HINT: Do the same for y
 moveBall = ->
-  # YOUR CODE HERE
+  ball.x += ball.speedX
+  ball.y += ball.speedY
 
 # Move left paddle when W or S is pressed
 # HINT: Check if keysPressed['w'] or keysPressed['W'] is true
@@ -186,7 +195,8 @@ moveBall = ->
 # HINT: If S pressed, add PADDLE_SPEED to leftPaddle.y (down)
 # HINT: Call keepPaddleOnScreen(leftPaddle) at the end
 moveLeftPaddle = ->
-  # YOUR CODE HERE
+  #if  == true
+  #PADDLE_SPEED -= 1
 
 # Move right paddle when Arrow keys are pressed
 # HINT: Check keysPressed['ArrowUp'] and keysPressed['ArrowDown']
