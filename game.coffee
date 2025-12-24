@@ -196,14 +196,19 @@ moveBall = ->
 # HINT: If so, add PADDLE_SPEED to leftPaddle.y (down)
 # HINT: Call keepPaddleOnScreen(leftPaddle) at the end
 moveLeftPaddle = ->
-  #if  == true
-  #PADDLE_SPEED -= 1
+  if keys.leftDown == true
+    leftPaddle.y = leftPaddle.y + PADDLE_SPEED
+  if keys.leftUp == true
+    leftPaddle.y = leftPaddle.y - PADDLE_SPEED
 
 # Move right paddle when Arrow keys are pressed
 # HINT: Check keys.rightUp and keys.rightDown
 # HINT: Same pattern as moveLeftPaddle but for rightPaddle
 moveRightPaddle = ->
-  # YOUR CODE HERE
+  if keys.rightDown == true
+    rightPaddle.y = rightPaddle.y + PADDLE_SPEED
+  if keys.rightUp == true
+    rightPaddle.y = rightPaddle.y - PADDLE_SPEED
 
 # Don't let the paddle go off the screen
 # HINT: If paddle.y < 0, set paddle.y = 0 (top edge)
@@ -259,12 +264,13 @@ resetBall = ->
   # YOUR CODE HERE
 
 # Start a fresh game
-# HINT: Set leftScore = 0 and rightScore = 0
+# HINT: ameSet leftScore = 0 and rightScore = 0
 # HINT: Call resetBall() to center the ball
 # HINT: Put both paddles in the middle (CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2)
-# HINT: Set gameRunning = true
+# HINT: Set gameRunning = true 
 startNewGame = ->
-  # YOUR CODE HERE
+  # STILL NEED PUT IN REST OF CODE
+  gameRunning = true
 
 # ============================================
 # INPUT HANDLING (Don't change this section!)
@@ -272,9 +278,9 @@ startNewGame = ->
 
 handleKeyDown = (event) ->
   # Left paddle controls (W and S keys)
-  if event.key == 'w' or event.key == 'W'
+  if event.key == 'a' or event.key == 'A'
     keys.leftUp = true
-  if event.key == 's' or event.key == 'S'
+  if event.key == 'z' or event.key == 'Z'
     keys.leftDown = true
   # Right paddle controls (Arrow keys)
   if event.key == 'ArrowUp'
@@ -287,9 +293,9 @@ handleKeyDown = (event) ->
       startNewGame()
 
 handleKeyUp = (event) ->
-  if event.key == 'w' or event.key == 'W'
+  if event.key == 'a' or event.key == 'A'
     keys.leftUp = false
-  if event.key == 's' or event.key == 'S'
+  if event.key == 'z' or event.key == 'Z'
     keys.leftDown = false
   if event.key == 'ArrowUp'
     keys.rightUp = false

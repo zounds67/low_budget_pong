@@ -11,7 +11,7 @@
   // ============================================
 
   // Canvas size (how big is the game screen?)
-  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update;
+  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keys, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update;
 
   CANVAS_WIDTH = 900; // HINT: Try 600-900
 
@@ -71,6 +71,13 @@
 
   // Track which keys are currently pressed
   keysPressed = {};
+
+  keys = {
+    leftUp: false,
+    leftDown: false,
+    rightUp: false,
+    rightDown: false
+  };
 
   // Is the game currently running?
   gameRunning = false;
@@ -133,17 +140,20 @@
   // HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
   drawPaddles = function() {
     drawPaddle(20, leftPaddle.y);
-    return drawPaddle(CANVAS_WIDTH - 150, rightPaddle.y);
+    return drawPaddle(CANVAS_WIDTH - 30, rightPaddle.y);
   };
 
   // Draw both players' scores at the top of the screen
   // HINT: Set ctx.fillStyle, ctx.font = '48px Arial', ctx.textAlign = 'center'
   // HINT: Use ctx.fillText(text, x, y) to draw text
   // HINT: Left score at x = CANVAS_WIDTH / 4, right at x = CANVAS_WIDTH * 3 / 4
-  drawScore = function() {};
+  drawScore = function() {
+    ctx.fillStyle = 'black';
+    ctx.font = '48px Roboto';
+    return ctx.fillText('points:', CANVAS_WIDTH / 8, CANVAS_HEIGHT / 8);
+  };
 
-  // YOUR CODE HERE
-
+  
   // Draw a dashed line down the center (Don't change this!)
   drawCenterLine = function() {
     ctx.strokeStyle = 'white';
@@ -201,25 +211,37 @@
   // Move the ball by adding its speed to its position
   // HINT: ball.x = ball.x + ball.speedX
   // HINT: Do the same for y
-  moveBall = function() {};
-
-  // YOUR CODE HERE
+  moveBall = function() {
+    ball.x += ball.speedX;
+    return ball.y += ball.speedY;
+  };
 
   // Move left paddle when W or S is pressed
-  // HINT: Check if keysPressed['w'] or keysPressed['W'] is true
-  // HINT: If W pressed, subtract PADDLE_SPEED from leftPaddle.y (up)
-  // HINT: If S pressed, add PADDLE_SPEED to leftPaddle.y (down)
+  // HINT: Check if keys.leftUp is true
+  // HINT: If so, subtract PADDLE_SPEED from leftPaddle.y (up)
+  // HINT: Check if keys.leftDown is true
+  // HINT: If so, add PADDLE_SPEED to leftPaddle.y (down)
   // HINT: Call keepPaddleOnScreen(leftPaddle) at the end
-  moveLeftPaddle = function() {};
-
-  // YOUR CODE HERE
+  moveLeftPaddle = function() {
+    if (keys.leftDown === true) {
+      leftPaddle.y = leftPaddle.y + PADDLE_SPEED;
+    }
+    if (keys.leftUp === true) {
+      return leftPaddle.y = leftPaddle.y - PADDLE_SPEED;
+    }
+  };
 
   // Move right paddle when Arrow keys are pressed
-  // HINT: Check keysPressed['ArrowUp'] and keysPressed['ArrowDown']
+  // HINT: Check keys.rightUp and keys.rightDown
   // HINT: Same pattern as moveLeftPaddle but for rightPaddle
-  moveRightPaddle = function() {};
-
-  // YOUR CODE HERE
+  moveRightPaddle = function() {
+    if (keys.rightDown === true) {
+      rightPaddle.y = rightPaddle.y + PADDLE_SPEED;
+    }
+    if (keys.rightUp === true) {
+      return rightPaddle.y = rightPaddle.y - PADDLE_SPEED;
+    }
+  };
 
   // Don't let the paddle go off the screen
   // HINT: If paddle.y < 0, set paddle.y = 0 (top edge)
@@ -281,19 +303,34 @@
   // YOUR CODE HERE
 
   // Start a fresh game
-  // HINT: Set leftScore = 0 and rightScore = 0
+  // HINT: ameSet leftScore = 0 and rightScore = 0
   // HINT: Call resetBall() to center the ball
   // HINT: Put both paddles in the middle (CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2)
-  // HINT: Set gameRunning = true
-  startNewGame = function() {};
-
-  // YOUR CODE HERE
+  // HINT: Set gameRunning = true 
+  startNewGame = function() {
+    // STILL NEED PUT IN REST OF CODE
+    return gameRunning = true;
+  };
 
   // ============================================
   // INPUT HANDLING (Don't change this section!)
   // ============================================
   handleKeyDown = function(event) {
-    keysPressed[event.key] = true;
+    // Left paddle controls (W and S keys)
+    if (event.key === 'a' || event.key === 'A') {
+      keys.leftUp = true;
+    }
+    if (event.key === 'z' || event.key === 'Z') {
+      keys.leftDown = true;
+    }
+    // Right paddle controls (Arrow keys)
+    if (event.key === 'ArrowUp') {
+      keys.rightUp = true;
+    }
+    if (event.key === 'ArrowDown') {
+      keys.rightDown = true;
+    }
+    // Space to start
     if (event.key === ' ') {
       if (!gameRunning) {
         return startNewGame();
@@ -302,7 +339,18 @@
   };
 
   handleKeyUp = function(event) {
-    return keysPressed[event.key] = false;
+    if (event.key === 'a' || event.key === 'A') {
+      keys.leftUp = false;
+    }
+    if (event.key === 'z' || event.key === 'Z') {
+      keys.leftDown = false;
+    }
+    if (event.key === 'ArrowUp') {
+      keys.rightUp = false;
+    }
+    if (event.key === 'ArrowDown') {
+      return keys.rightDown = false;
+    }
   };
 
   // ============================================
