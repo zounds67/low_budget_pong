@@ -225,9 +225,11 @@
   moveLeftPaddle = function() {
     if (keys.leftDown === true) {
       leftPaddle.y = leftPaddle.y + PADDLE_SPEED;
+      keepPaddleOnScreen(leftPaddle);
     }
     if (keys.leftUp === true) {
-      return leftPaddle.y = leftPaddle.y - PADDLE_SPEED;
+      leftPaddle.y = leftPaddle.y - PADDLE_SPEED;
+      return keepPaddleOnScreen(leftPaddle);
     }
   };
 
@@ -237,31 +239,38 @@
   moveRightPaddle = function() {
     if (keys.rightDown === true) {
       rightPaddle.y = rightPaddle.y + PADDLE_SPEED;
+      keepPaddleOnScreen(rightPaddle);
     }
     if (keys.rightUp === true) {
-      return rightPaddle.y = rightPaddle.y - PADDLE_SPEED;
+      rightPaddle.y = rightPaddle.y - PADDLE_SPEED;
+      return keepPaddleOnScreen(rightPaddle);
     }
   };
 
   // Don't let the paddle go off the screen
   // HINT: If paddle.y < 0, set paddle.y = 0 (top edge)
   // HINT: If paddle.y > CANVAS_HEIGHT - PADDLE_HEIGHT, fix it (bottom edge)
-  keepPaddleOnScreen = function(paddle) {};
-
-  // YOUR CODE HERE
+  keepPaddleOnScreen = function(paddle) {
+    if (paddle.y < 0) {
+      paddle.y = 0;
+    }
+    if (paddle.y > CANVAS_HEIGHT - PADDLE_HEIGHT) {
+      return paddle.y = CANVAS_HEIGHT - PADDLE_HEIGHT;
+    }
+  };
 
   // ============================================
   // COLLISION FUNCTIONS - Fill these in!
   // ============================================
 
-  // Bounce the ball off the top and bottom walls
-  // HINT: If ball.y <= 0, the ball hit the top wall
-  // HINT: If ball.y >= CANVAS_HEIGHT - BALL_SIZE, hit the bottom
-  // HINT: To bounce, reverse the direction: ball.speedY = -ball.speedY
-  // HINT: Call playWallBounceSound() when it bounces
+  // Bounce off top and bottom
+  // HINT: Check if ball is at the top (or bottom)
+  // HINT: If the ball hits a wall, its speed should "flip." 
+  // How do you turn a positive number into a negative one? (Multiply by -1!)
   checkWallCollision = function() {};
 
-  // YOUR CODE HERE
+  // If ball.y is too high or too low...
+  // Flip the ball.speedY and playWallBounceSound()
 
   // Bounce the ball off the paddles (this one is tricky!)
   // HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
@@ -273,8 +282,9 @@
   // YOUR CODE HERE
 
   // Check if ball went off left or right side (someone scored!)
-  // HINT: If ball.x < 0, the ball went off the left - right player scores!
-  // HINT: If ball.x > CANVAS_WIDTH, left player scores!
+  // HINT: If the ball went off the left - right player scores!
+  // HINT: If ball goes of the right left player scores!
+  // HINT: left and right are handled by the balls x coordinate
   // HINT: Add 1 to the winner's score
   // HINT: Call playScoreSound(), resetBall(), and checkWinner()
   checkScoring = function() {};
@@ -282,8 +292,8 @@
   // YOUR CODE HERE
 
   // Check if someone won the game
-  // HINT: If leftScore >= WINNING_SCORE, set gameRunning = false
-  // HINT: Same check for rightScore
+  // HINT: If leftScore or rightScore is greater than or equal to WINNING_SCORE
+  // set gameRunning = false
   checkWinner = function() {};
 
   // YOUR CODE HERE
@@ -293,15 +303,18 @@
   // ============================================
 
   // Put the ball back in the center with a random direction
-  // HINT: Set ball.x to center: CANVAS_WIDTH / 2 - BALL_SIZE / 2
-  // HINT: Set ball.y to center: CANVAS_HEIGHT / 2 - BALL_SIZE / 2
+  // HINT: Set ball.x to center
+  // HINT: Set ball.y to center:
   // HINT: Use Math.random() < 0.5 to randomly pick left or right
   // HINT: Set ball.speedX to BALL_SPEED or -BALL_SPEED
   // HINT: Set ball.speedY to a random value for angle
-  resetBall = function() {};
+  resetBall = function() {
+    ball.x = CANVAS_WIDTH / 2 - BALL_SIZE / 2;
+    ball.y = CANVAS_HEIGHT / -BALL_SIZE / 2;
+    return Math.random() < 0.5;
+  };
 
-  // YOUR CODE HERE
-
+  
   // Start a fresh game
   // HINT: ameSet leftScore = 0 and rightScore = 0
   // HINT: Call resetBall() to center the ball
