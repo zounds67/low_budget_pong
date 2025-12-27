@@ -19,7 +19,7 @@ PADDLE_SPEED = 6   # HINT: Try 4-8 (how fast paddles move)
 
 # Ball settings
 BALL_SIZE = 13      # HINT: Try 8-15
-BALL_SPEED = 6     # HINT: Try 3-7 (how fast ball moves)
+BALL_SPEED = 5     # HINT: Try 3-7 (how fast ball moves)
 
 # How many points to win the game
 WINNING_SCORE = 7  # HINT: Try 3-10
@@ -110,7 +110,7 @@ drawBackground = ->
 # HINT: Use ctx.fillRect(ball.x, ball.y, width, height)
 drawBall = ->
   ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, BALL_SIZE, BALL_SIZE)
+  ctx.fillRect(ball.x, ball.y, BALL_SIZE, BALL_SIZE)
 
 # Draw a paddle at position (x, y)
 # HINT: Same pattern as drawBall
@@ -134,6 +134,7 @@ drawScore = ->
   ctx.fillStyle = 'black'
   ctx.font = '48px Roboto'
   ctx.fillText('points:', CANVAS_WIDTH/8, CANVAS_HEIGHT/8) 
+
 
 # Draw a dashed line down the center (Don't change this!)
 drawCenterLine = ->
@@ -274,7 +275,11 @@ resetBall = ->
     ball.speedX = BALL_SPEED
   else
     ball.speedX = -BALL_SPEED
-
+  if Math.random() < 0.5
+    ball.speedY = BALL_SPEED
+  else
+    ball.speedY = -BALL_SPEED
+#Uprgade ball trejectory
 # Start a fresh game
 # HINT: ameSet leftScore = 0 and rightScore = 0
 # HINT: Call resetBall() to center the ball
@@ -283,7 +288,6 @@ resetBall = ->
 startNewGame = ->
   # STILL NEED PUT IN REST OF CODE
   resetBall()
-
   gameRunning = true
 
 # ============================================

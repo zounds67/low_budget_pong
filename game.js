@@ -29,7 +29,7 @@
   // Ball settings
   BALL_SIZE = 13; // HINT: Try 8-15
 
-  BALL_SPEED = 6; // HINT: Try 3-7 (how fast ball moves)
+  BALL_SPEED = 5; // HINT: Try 3-7 (how fast ball moves)
 
   
   // How many points to win the game
@@ -124,7 +124,7 @@
   // HINT: Use ctx.fillRect(ball.x, ball.y, width, height)
   drawBall = function() {
     ctx.fillStyle = 'white';
-    return ctx.fillRect(0, 0, BALL_SIZE, BALL_SIZE);
+    return ctx.fillRect(ball.x, ball.y, BALL_SIZE, BALL_SIZE);
   };
 
   // Draw a paddle at position (x, y)
@@ -312,12 +312,18 @@
     ball.x = CANVAS_WIDTH / 2 - BALL_SIZE / 2;
     ball.y = CANVAS_HEIGHT / 2 - BALL_SIZE / 2;
     if (Math.random() < 0.5) {
-      return ball.speedX = BALL_SPEED;
+      ball.speedX = BALL_SPEED;
     } else {
-      return ball.speedX = -BALL_SPEED;
+      ball.speedX = -BALL_SPEED;
+    }
+    if (Math.random() < 0.5) {
+      return ball.speedY = BALL_SPEED;
+    } else {
+      return ball.speedY = -BALL_SPEED;
     }
   };
 
+  //Uprgade ball trejectory
   // Start a fresh game
   // HINT: ameSet leftScore = 0 and rightScore = 0
   // HINT: Call resetBall() to center the ball
