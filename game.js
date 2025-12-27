@@ -310,11 +310,14 @@
   // HINT: Set ball.speedY to a random value for angle
   resetBall = function() {
     ball.x = CANVAS_WIDTH / 2 - BALL_SIZE / 2;
-    ball.y = CANVAS_HEIGHT / -BALL_SIZE / 2;
-    return Math.random() < 0.5;
+    ball.y = CANVAS_HEIGHT / 2 - BALL_SIZE / 2;
+    if (Math.random() < 0.5) {
+      return ball.speedX = BALL_SPEED;
+    } else {
+      return ball.speedX = -BALL_SPEED;
+    }
   };
 
-  
   // Start a fresh game
   // HINT: ameSet leftScore = 0 and rightScore = 0
   // HINT: Call resetBall() to center the ball
@@ -322,6 +325,7 @@
   // HINT: Set gameRunning = true 
   startNewGame = function() {
     // STILL NEED PUT IN REST OF CODE
+    resetBall();
     return gameRunning = true;
   };
 

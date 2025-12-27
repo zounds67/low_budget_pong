@@ -269,8 +269,11 @@ checkWinner = ->
 # HINT: Set ball.speedY to a random value for angle
 resetBall = ->
   ball.x = CANVAS_WIDTH / 2 - BALL_SIZE / 2
-  ball.y = CANVAS_HEIGHT /  - BALL_SIZE / 2
-  Math.random() < 0.5 
+  ball.y = CANVAS_HEIGHT / 2  - BALL_SIZE / 2
+  if Math.random() < 0.5
+    ball.speedX = BALL_SPEED
+  else
+    ball.speedX = -BALL_SPEED
 
 # Start a fresh game
 # HINT: ameSet leftScore = 0 and rightScore = 0
@@ -279,6 +282,8 @@ resetBall = ->
 # HINT: Set gameRunning = true 
 startNewGame = ->
   # STILL NEED PUT IN REST OF CODE
+  resetBall()
+
   gameRunning = true
 
 # ============================================
