@@ -230,10 +230,14 @@ keepPaddleOnScreen = (paddle) ->
 # Bounce off top and bottom
 # HINT: Check if ball is at the top (or bottom)
 # HINT: If the ball hits a wall, its speed should "flip." 
-# How do you turn a positive number into a negative one? (Multiply by -1!)
+# How do you turn a positive number into a negative one? (Multiply by -1)
 checkWallCollision = ->
   # If ball.y is too high or too low...
   # Flip the ball.speedY and playWallBounceSound()
+  if ball.y < 0
+    ball.speedY *= -1
+  if ball.y > CANVAS_HEIGHT - BALL_SIZE
+    ball.speedY *= -1
 
 # Bounce the ball off the paddles (this one is tricky!)
 # HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
@@ -241,7 +245,7 @@ checkWallCollision = ->
 # HINT: Check if ball's y position overlaps with the paddle's y
 # HINT: If both are true, reverse ball.speedX and call playPaddleHitSound()
 checkPaddleCollision = ->
-  # YOUR CODE HERE
+  
 
 # Check if ball went off left or right side (someone scored!)
 # HINT: If the ball went off the left - right player scores!
@@ -275,6 +279,7 @@ resetBall = ->
     ball.speedX = BALL_SPEED
   else
     ball.speedX = -BALL_SPEED
+  # Update this later to make the ball angle change with more variety
   if Math.random() < 0.5
     ball.speedY = BALL_SPEED
   else
