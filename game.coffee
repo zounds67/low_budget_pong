@@ -133,7 +133,8 @@ drawPaddles = ->
 drawScore = ->
   ctx.fillStyle = 'black'
   ctx.font = '48px Roboto'
-  ctx.fillText('points:', CANVAS_WIDTH/8, CANVAS_HEIGHT/8) 
+  ctx.fillText('points: ' + leftScore, CANVAS_WIDTH/8, CANVAS_HEIGHT/8) 
+  ctx.fillText('points: ' + rightScore, CANVAS_WIDTH/8*7, CANVAS_HEIGHT/8)
 
 
 # Draw a dashed line down the center (Don't change this!)
@@ -245,7 +246,13 @@ checkWallCollision = ->
 # HINT: Check if ball's y position overlaps with the paddle's y
 # HINT: If both are true, reverse ball.speedX and call playPaddleHitSound()
 checkPaddleCollision = ->
-  
+  if ball.x < 20 and ball.y >= leftPaddle.y and ball.y <= (leftPaddle.y + PADDLE_HEIGHT)
+  #  if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
+    ball.speedX *= -1
+    #playPaddleHitSound()
+  if ball.x > (CANVAS_WIDTH - 30) and ball.y >= rightPaddle.y and ball.y <= (rightPaddle.y + PADDLE_HEIGHT)
+    ball.speedX *= -1
+    #playPaddleHitazaSound()
 
 # Check if ball went off left or right side (someone scored!)
 # HINT: If the ball went off the left - right player scores!
@@ -254,14 +261,19 @@ checkPaddleCollision = ->
 # HINT: Add 1 to the winner's score
 # HINT: Call playScoreSound(), resetBall(), and checkWinner()
 checkScoring = ->
-  # YOUR CODE HERE
-
-# Check if someone won the game
+  if ball.x >= CANVAS_WIDTH
+    leftScore += 1
+    resetBall()
+    checkWinner()
+  if ball.x <= 0
+    rightScore += 1  
+    resetBall()
+    checkWinner()
 # HINT: If leftScore or rightScore is greater than or equal to WINNING_SCORE
 # set gameRunning = false
 checkWinner = ->
-  # YOUR CODE HERE
-
+  if rightScore >= WINNING_SCORE or leftScore >= WINNING_SCORE
+    gameRunning = false
 # ============================================
 # RESET FUNCTIONS - Fill these in!
 # ============================================
@@ -284,6 +296,7 @@ resetBall = ->
     ball.speedY = BALL_SPEED
   else
     ball.speedY = -BALL_SPEED
+    
 #Uprgade ball trejectory
 # Start a fresh game
 # HINT: ameSet leftScore = 0 and rightScore = 0
