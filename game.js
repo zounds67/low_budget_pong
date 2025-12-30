@@ -383,6 +383,8 @@
     // Space to start
     if (event.key === ' ') {
       if (!gameRunning) {
+        rightScore = 0;
+        leftScore = 0;
         return startNewGame();
       }
     }

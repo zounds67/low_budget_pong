@@ -326,6 +326,8 @@ handleKeyDown = (event) ->
   # Space to start
   if event.key == ' '
     if not gameRunning
+      rightScore = 0
+      leftScore = 0
       startNewGame()
 
 handleKeyUp = (event) ->
