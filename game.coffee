@@ -155,6 +155,11 @@ drawMessage = (text) ->
   ctx.textAlign = 'center'
   ctx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
 
+drawMessageBottom = (text) ->
+  ctx.fillStyle = 'white'
+  ctx.font = '32px Arial'
+  ctx.textAlign = 'center'
+  ctx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT - 20)
 # ============================================
 # SOUND FUNCTIONS (Don't change this section!)
 # ============================================
@@ -237,8 +242,10 @@ checkWallCollision = ->
   # Flip the ball.speedY and playWallBounceSound()
   if ball.y < 0
     ball.speedY *= -1
+    playWallBounceSound()
   if ball.y > CANVAS_HEIGHT - BALL_SIZE
     ball.speedY *= -1
+    playWallBounceSound()
 
 # Bounce the ball off the paddles (this one is tricky!)
 # HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
@@ -249,10 +256,10 @@ checkPaddleCollision = ->
   if ball.x < 20 and ball.y >= leftPaddle.y and ball.y <= (leftPaddle.y + PADDLE_HEIGHT)
   #  if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
     ball.speedX *= -1
-    #playPaddleHitSound()
+    playPaddleHitSound()
   if ball.x > (CANVAS_WIDTH - 30) and ball.y >= rightPaddle.y and ball.y <= (rightPaddle.y + PADDLE_HEIGHT)
     ball.speedX *= -1
-    #playPaddleHitazaSound()
+    playPaddleHitSound()
 
 # Check if ball went off left or right side (someone scored!)
 # HINT: If the ball went off the left - right player scores!
@@ -263,16 +270,22 @@ checkPaddleCollision = ->
 checkScoring = ->
   if ball.x >= CANVAS_WIDTH
     leftScore += 1
+    playScoreSound()
     resetBall()
     checkWinner()
   if ball.x <= 0
-    rightScore += 1  
+    rightScore += 1
+    playScoreSound()
     resetBall()
     checkWinner()
+
 # HINT: If leftScore or rightScore is greater than or equal to WINNING_SCORE
 # set gameRunning = false
 checkWinner = ->
   if rightScore >= WINNING_SCORE or leftScore >= WINNING_SCORE
+    # These letters (note the CBAC are higher than the D) DDCBDGGFEGCCBAC
+    #student = { D: 294, C: 261, phone:  }
+    #playSound()
     gameRunning = false
 # ============================================
 # RESET FUNCTIONS - Fill these in!
@@ -323,7 +336,12 @@ handleKeyDown = (event) ->
     keys.rightUp = true
   if event.key == 'ArrowDown'
     keys.rightDown = true
-  # Space to start
+  if event.key == '-'
+    WINNING_SCORE -= 1
+    draw()
+  if event.key == '+'
+    WINNING_SCORE += 1
+    draw()
   if event.key == ' '
     if not gameRunning
       rightScore = 0
@@ -366,8 +384,13 @@ draw = ->
     else if rightScore >= WINNING_SCORE
       drawMessage('Right Player Wins! Press SPACE to play again')
     else
-      drawMessage('Press SPACE to start')
-
+      drawMessage("Press SPACE to start")
+      drawMessageBottom(
+        'Winning Score: ' + 
+        WINNING_SCORE + 
+        " '+' to increase '-' to decrease")
+ 
+                  
 gameLoop = ->
   update()
   draw()

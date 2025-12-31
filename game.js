@@ -11,7 +11,7 @@
   // ============================================
 
   // Canvas size (how big is the game screen?)
-  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keys, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update;
+  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawMessageBottom, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keys, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update;
 
   CANVAS_WIDTH = 900; // HINT: Try 600-900
 
@@ -174,6 +174,13 @@
     return ctx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
   };
 
+  drawMessageBottom = function(text) {
+    ctx.fillStyle = 'white';
+    ctx.font = '32px Arial';
+    ctx.textAlign = 'center';
+    return ctx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT - 20);
+  };
+
   // ============================================
   // SOUND FUNCTIONS (Don't change this section!)
   // ============================================
@@ -272,9 +279,11 @@
     // Flip the ball.speedY and playWallBounceSound()
     if (ball.y < 0) {
       ball.speedY *= -1;
+      playWallBounceSound();
     }
     if (ball.y > CANVAS_HEIGHT - BALL_SIZE) {
-      return ball.speedY *= -1;
+      ball.speedY *= -1;
+      return playWallBounceSound();
     }
   };
 
@@ -287,14 +296,13 @@
     if (ball.x < 20 && ball.y >= leftPaddle.y && ball.y <= (leftPaddle.y + PADDLE_HEIGHT)) {
       //  if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
       ball.speedX *= -1;
+      playPaddleHitSound();
     }
-    //playPaddleHitSound()
     if (ball.x > (CANVAS_WIDTH - 30) && ball.y >= rightPaddle.y && ball.y <= (rightPaddle.y + PADDLE_HEIGHT)) {
-      return ball.speedX *= -1;
+      ball.speedX *= -1;
+      return playPaddleHitSound();
     }
   };
-
-  //playPaddleHitazaSound()
 
   // Check if ball went off left or right side (someone scored!)
   // HINT: If the ball went off the left - right player scores!
@@ -305,11 +313,13 @@
   checkScoring = function() {
     if (ball.x >= CANVAS_WIDTH) {
       leftScore += 1;
+      playScoreSound();
       resetBall();
       checkWinner();
     }
     if (ball.x <= 0) {
       rightScore += 1;
+      playScoreSound();
       resetBall();
       return checkWinner();
     }
@@ -319,6 +329,9 @@
   // set gameRunning = false
   checkWinner = function() {
     if (rightScore >= WINNING_SCORE || leftScore >= WINNING_SCORE) {
+      // These letters (note the CBAC are higher than the D) DDCBDGGFEGCCBAC
+      //student = { D: 294, C: 261, phone:  }
+      //playSound()
       return gameRunning = false;
     }
   };
@@ -380,7 +393,14 @@
     if (event.key === 'ArrowDown') {
       keys.rightDown = true;
     }
-    // Space to start
+    if (event.key === '-') {
+      WINNING_SCORE -= 1;
+      draw();
+    }
+    if (event.key === '+') {
+      WINNING_SCORE += 1;
+      draw();
+    }
     if (event.key === ' ') {
       if (!gameRunning) {
         rightScore = 0;
@@ -431,7 +451,8 @@
       } else if (rightScore >= WINNING_SCORE) {
         return drawMessage('Right Player Wins! Press SPACE to play again');
       } else {
-        return drawMessage('Press SPACE to start');
+        drawMessage("Press SPACE to start");
+        return drawMessageBottom('Winning Score: ' + WINNING_SCORE + " '+' to increase '-' to decrease");
       }
     }
   };
