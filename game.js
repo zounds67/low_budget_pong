@@ -338,7 +338,8 @@
   // set gameRunning = false
   checkWinner = function() {
     if (rightScore >= WINNING_SCORE || leftScore >= WINNING_SCORE) {
-      return gameRunning = false;
+      gameRunning = false;
+      return playWinMusic();
     }
   };
 

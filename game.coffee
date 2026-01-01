@@ -293,6 +293,7 @@ checkScoring = ->
 checkWinner = ->
   if rightScore >= WINNING_SCORE or leftScore >= WINNING_SCORE
     gameRunning = false
+    playWinMusic()
 # ============================================
 # RESET FUNCTIONS - Fill these in!
 # ============================================
