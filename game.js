@@ -415,8 +415,14 @@
       if (!gameRunning) {
         rightScore = 0;
         leftScore = 0;
-        return startNewGame();
+        startNewGame();
       }
+    }
+    if (event.key === ']') {
+      BALL_SPEED += 1;
+    }
+    if (event.key === '[') {
+      return BALL_SPEED -= 1;
     }
   };
 

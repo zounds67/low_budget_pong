@@ -356,7 +356,10 @@ handleKeyDown = (event) ->
       rightScore = 0
       leftScore = 0
       startNewGame()
-
+  if event.key == ']'
+    BALL_SPEED += 1
+  if event.key == '['
+    BALL_SPEED -= 1
 handleKeyUp = (event) ->
   if event.key == 'a' or event.key == 'A'
     keys.leftUp = false
