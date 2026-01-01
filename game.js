@@ -56,14 +56,17 @@
 
   // The left paddle's position (x is always 20)
   leftPaddle = {
-    y: CANVAS_HEIGHT / 2
+    y: CANVAS_HEIGHT / 2,
+    x: 20
   };
 
   // The right paddle's position (x is always CANVAS_WIDTH - 30)
   rightPaddle = {
-    y: CANVAS_HEIGHT / 2
+    y: CANVAS_HEIGHT / 2,
+    x: CANVAS_WIDTH - 30
   };
 
+  
   // The scores for each player
   leftScore = 0;
 
@@ -137,10 +140,10 @@
 
   // Draw both paddles on the screen
   // HINT: Call drawPaddle twice - once for each paddle
-  // HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
+  // HINT: Left paddle is at x = 20, right paddle is at x = rightPaddle.x
   drawPaddles = function() {
-    drawPaddle(20, leftPaddle.y);
-    return drawPaddle(CANVAS_WIDTH - 30, rightPaddle.y);
+    drawPaddle(leftPaddle.x, leftPaddle.y);
+    return drawPaddle(rightPaddle.x, rightPaddle.y);
   };
 
   // Draw both players' scores at the top of the screen
@@ -297,17 +300,17 @@
   };
 
   // Bounce the ball off the paddles (this one is tricky!)
-  // HINT: Left paddle is at x = 20, right paddle is at x = CANVAS_WIDTH - 30
+  // HINT: Left paddle is at x = 20, right paddle is at x = rightPaddle.x
   // HINT: Check if ball's x position is near the paddle
   // HINT: Check if ball's y position overlaps with the paddle's y
   // HINT: If both are true, reverse ball.speedX and call playPaddleHitSound()
   checkPaddleCollision = function() {
-    if (ball.x < 20 && ball.y >= leftPaddle.y && ball.y <= (leftPaddle.y + PADDLE_HEIGHT)) {
+    if (ball.x < leftPaddle.x + PADDLE_WIDTH && ball.y >= leftPaddle.y && ball.y <= (leftPaddle.y + PADDLE_HEIGHT)) {
       //  if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
       ball.speedX *= -1;
       playPaddleHitSound();
     }
-    if (ball.x > (CANVAS_WIDTH - 30) && ball.y >= rightPaddle.y && ball.y <= (rightPaddle.y + PADDLE_HEIGHT)) {
+    if (ball.x > (rightPaddle.x - PADDLE_WIDTH) && ball.y >= rightPaddle.y && ball.y <= (rightPaddle.y + PADDLE_HEIGHT)) {
       ball.speedX *= -1;
       return playPaddleHitSound();
     }
@@ -320,13 +323,13 @@
   // HINT: Add 1 to the winner's score
   // HINT: Call playScoreSound(), resetBall(), and checkWinner()
   checkScoring = function() {
-    if (ball.x >= CANVAS_WIDTH) {
+    if (ball.x >= rightPaddle.x) {
       leftScore += 1;
       playScoreSound();
       resetBall();
       checkWinner();
     }
-    if (ball.x <= 0) {
+    if (ball.x <= leftPaddle.x) {
       rightScore += 1;
       playScoreSound();
       resetBall();
