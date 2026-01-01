@@ -8,6 +8,7 @@
 # CONSTANTS - Fill in the values!
 # ============================================
 
+
 # Canvas size (how big is the game screen?)
 CANVAS_WIDTH =  900  # HINT: Try 600-900
 CANVAS_HEIGHT = 500  # HINT: Try 300-500
@@ -185,6 +186,14 @@ playWallBounceSound = ->
 playScoreSound = ->
   playSound(330, 0.3)
 
+# add in Audio files
+winAudio = new Audio("winner.m4a")
+
+playWinMusic = ->
+  # Reset to start (in case it played before) and play
+  winAudio.currentTime = 0 
+  winAudio.play()
+
 # ============================================
 # MOVEMENT FUNCTIONS - Fill these in!
 # ============================================
@@ -283,9 +292,6 @@ checkScoring = ->
 # set gameRunning = false
 checkWinner = ->
   if rightScore >= WINNING_SCORE or leftScore >= WINNING_SCORE
-    # These letters (note the CBAC are higher than the D) DDCBDGGFEGCCBAC
-    #student = { D: 294, C: 261, phone:  }
-    #playSound()
     gameRunning = false
 # ============================================
 # RESET FUNCTIONS - Fill these in!

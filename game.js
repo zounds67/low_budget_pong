@@ -11,7 +11,7 @@
   // ============================================
 
   // Canvas size (how big is the game screen?)
-  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawMessageBottom, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keys, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update;
+  var BALL_SIZE, BALL_SPEED, CANVAS_HEIGHT, CANVAS_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED, PADDLE_WIDTH, WINNING_SCORE, audioContext, ball, canvas, checkPaddleCollision, checkScoring, checkWallCollision, checkWinner, ctx, draw, drawBackground, drawBall, drawCenterLine, drawMessage, drawMessageBottom, drawPaddle, drawPaddles, drawScore, gameLoop, gameRunning, handleKeyDown, handleKeyUp, keepPaddleOnScreen, keys, keysPressed, leftPaddle, leftScore, moveBall, moveLeftPaddle, moveRightPaddle, playPaddleHitSound, playScoreSound, playSound, playWallBounceSound, playWinMusic, resetBall, rightPaddle, rightScore, setupGame, startNewGame, update, winAudio;
 
   CANVAS_WIDTH = 900; // HINT: Try 600-900
 
@@ -211,6 +211,15 @@
     return playSound(330, 0.3);
   };
 
+  // add in Audio files
+  winAudio = new Audio("winner.m4a");
+
+  playWinMusic = function() {
+    // Reset to start (in case it played before) and play
+    winAudio.currentTime = 0;
+    return winAudio.play();
+  };
+
   // ============================================
   // MOVEMENT FUNCTIONS - Fill these in!
   // ============================================
@@ -329,9 +338,6 @@
   // set gameRunning = false
   checkWinner = function() {
     if (rightScore >= WINNING_SCORE || leftScore >= WINNING_SCORE) {
-      // These letters (note the CBAC are higher than the D) DDCBDGGFEGCCBAC
-      //student = { D: 294, C: 261, phone:  }
-      //playSound()
       return gameRunning = false;
     }
   };
